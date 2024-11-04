@@ -417,7 +417,6 @@ function App() {
           <MachineModel position={[10, 4.5, -100]} />
 
           <MachineModel position={[46, 4.5, -95]} />
-
         </Suspense>
       </Canvas>
       {isMobile && <VirtualDpad onDirectionChange={setMobileControls} />}
