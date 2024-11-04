@@ -325,13 +325,16 @@ function InfoPoint({ position, info, imageUrl }) {
 }
 
 // Performance Monitoring and Adaptation
-function PerformanceOptimizer() {
+function PerformanceOptimizer({ismobile}) {
   const { gl } = useThree()
-  
   return (
     <PerformanceMonitor
       onDecline={() => {
-        gl.setPixelRatio(Math.max(1, window.devicePixelRatio - 0.25))
+        if (ismobile){
+          gl.setPixelRatio(Math.max(1, window.devicePixelRatio - 1))
+        }
+        else
+          gl.setPixelRatio(Math.max(1, window.devicePixelRatio - 0.25))
       }}
       onIncline={() => {
         gl.setPixelRatio(Math.min(2, window.devicePixelRatio))
@@ -360,18 +363,18 @@ function App() {
         { name: "jump", keys: ["Space"] },
       ]}>
       <Canvas style={{ height: '100vh', width: '100vw' }} camera={{ fov: 75, position: [100, 10, -8] }} 
-        //shadows={false} // 10. Disable shadows for performance
-        // gl={{ 
-        //   powerPreference: "high-performance",
-        //   antialias: false, // 11. Disable antialiasing
-        //   stencil: false,
-        //   depth: true
-        // }}
-        //performance={{ min: 0.5 }}
+        shadows={false} // 10. Disable shadows for performance
+        gl={{ 
+          powerPreference: "high-performance",
+          // antialias: false, // 11. Disable antialiasing
+          // stencil: false,
+          // depth: true
+        }}
+        performance={{ min: 0.5 }}
         // frameloop='demand'
       >
         {/* <AdaptiveDpr pixelated /> */}
-        <PerformanceOptimizer />
+        <PerformanceOptimizer ismobile={isMobile} />
         <Perf position="top-left" />
         <CameraController />
         <CameraControllerDpad mobileControls={mobileControls} />
