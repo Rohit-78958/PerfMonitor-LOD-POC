@@ -131,7 +131,6 @@ const VirtualDpad = ({ onDirectionChange }) => {
 
 // Camera controller component - inside Canvas
 function CameraControllerDpad({ mobileControls }) {
-  const {invalidate} = useThree()
   const [, get] = useKeyboardControls();
 
   useFrame((state) => {
@@ -156,8 +155,6 @@ function CameraControllerDpad({ mobileControls }) {
     // Update camera position
     state.camera.position.x += direction.x * 0.1;
     state.camera.position.z += direction.z * 0.1;
-
-    invalidate();
   });
 
   return null;
@@ -175,22 +172,6 @@ function ShowroomModel() {
       {/* <OrbitControls enablePan={false} enableZoom={false} target={[0, 1, 0]} maxPolarAngle={Math.PI / 2} minPolarAngle={-Math.PI / 2} /> */}
     </group>
   )
-}
-
-// Frustum culling function
-function useFrustumCulling(position, scale = 1) {
-  const { camera, scene } = useThree()
-  const frustum = new THREE.Frustum()
-  const matrix = new THREE.Matrix4()
-
-  useFrame(() => {
-    // Update frustum with the latest camera view
-    camera.updateMatrixWorld()
-    matrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse)
-    frustum.setFromProjectionMatrix(matrix)
-  })
-
-  return frustum.containsPoint(new THREE.Vector3(...position).multiplyScalar(scale))
 }
 
 // Modified MachineModel with LOD
@@ -387,9 +368,9 @@ function App() {
         //   depth: true
         // }}
         //performance={{ min: 0.5 }}
-        frameloop='demand'
+        // frameloop='demand'
       >
-        <AdaptiveDpr pixelated />
+        {/* <AdaptiveDpr pixelated /> */}
         <PerformanceOptimizer />
         <Perf position="top-left" />
         <CameraController />
